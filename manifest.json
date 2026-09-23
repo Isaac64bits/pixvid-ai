@@ -2,7 +2,7 @@
   "name": "PixVid AI",
   "short_name": "PixVid",
   "description": "Génération de vidéos courtes 9:16 avec IA — 100+ effets, multi-effets, export ZIP",
-  "start_url": "./Studio.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -30,7 +30,7 @@
       "name": "Nouvelle session",
       "short_name": "Créer",
       "description": "Ouvrir le studio et commencer une nouvelle création",
-      "url": "./Studio.html",
+      "url": "./index.html",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ]
