@@ -9,7 +9,7 @@ const CACHE_VERSION = 1;
 
 // Ressources à mettre en cache au premier démarrage
 const PRECACHE_URLS = [
-    './Studio.html',
+    './index.html',
     './manifest.json',
     './icon-192.png',
     './icon-512.png',
@@ -95,7 +95,7 @@ async function cacheFirst(request) {
         // Hors-ligne et pas dans le cache : renvoyer une page de secours minimale
         return new Response(
             '<html><body style="background:#0b0c11;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;">' +
-            '<div><h2>⚡ PixVid AI</h2><p>Vous êtes hors-ligne.<br>Veuillez ouvrir Studio.html directement.</p></div></body></html>',
+            '<div><h2>⚡ PixVid AI</h2><p>Vous êtes hors-ligne.<br>Veuillez ouvrir index.html directement.</p></div></body></html>',
             { headers: { 'Content-Type': 'text/html;charset=utf-8' } }
         );
     }
