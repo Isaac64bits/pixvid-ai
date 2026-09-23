@@ -1929,6 +1929,20 @@
             pointer-events: none;
             z-index: -1;
         }
+        #styles-container {
+            max-height: 45vh;
+            overflow-y: auto;
+            padding-right: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--ink-dim) transparent;
+        }
+        #styles-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #styles-container::-webkit-scrollbar-thumb {
+            background-color: var(--ink-dim);
+            border-radius: 4px;
+        }
     </style>
 </head>
 
