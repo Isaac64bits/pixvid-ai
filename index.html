@@ -3042,7 +3042,8 @@
             const btn = document.getElementById('generate-btn');
             if (!btn) return;
             const hasImages = state.images.length > 0;
-            const hasKey = !!getApiKey();
+            // En mode heberge (proxy Vercel), la cle API est geree cote serveur — pas besoin de la valider ici
+            const hasKey = IS_HOSTED ? true : !!getApiKey();
             btn.disabled = !hasImages || !hasKey || state.isRunning || state.isLoadingImages;
             if (state.isLoadingImages) {
                 btn.textContent = 'Chargement des images… (' + state.images.length + ')';
@@ -4161,7 +4162,8 @@
         // ══════════════════════════════════════════════════════════════════
         async function startGeneration() {
             if (state.isRunning || !state.images.length) return;
-            if (!getApiKey()) {
+            // En mode heberge, la cle est geree cote serveur — on n'a pas besoin de la verifier ici
+            if (!IS_HOSTED && !getApiKey()) {
                 showToast('Clé API requise — déverrouillez les paramètres', 'error');
                 // Ouvrir la modale si le panneau est encore verrouillé
                 const panel = document.getElementById('api-panel');
