@@ -1,0 +1,37 @@
+{
+  "name": "PixVid AI",
+  "short_name": "PixVid",
+  "description": "Génération de vidéos courtes 9:16 avec IA — 100+ effets, multi-effets, export ZIP",
+  "start_url": "./Studio.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0c11",
+  "theme_color": "#8b5cf6",
+  "lang": "fr",
+  "categories": ["productivity", "photo", "video"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Nouvelle session",
+      "short_name": "Créer",
+      "description": "Ouvrir le studio et commencer une nouvelle création",
+      "url": "./Studio.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
