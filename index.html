@@ -1949,7 +1949,7 @@
 <body>
 
     <header style="position:relative;">
-        <div class="brand-badge" id="brand-badge" title="Double-cliquez pour accéder aux paramètres" style="cursor:pointer;user-select:none;">⚡ Isaac.dev Studio</div>
+        <div class="brand-badge" id="brand-badge" title="Double-cliquez pour accéder aux paramètres" style="cursor:pointer;user-select:none;">⚡ Isaac.dev PixVid AI </div>
         <h1>Créer avec ⚡ PixVid AI</h1>
         <p class="subtitle">Génération vidéo 9:16 · 100+ Styles · Multi-Effets · Export ZIP · Hors-ligne</p>
         <!-- Badge déverrouillé (visible uniquement quand la session est ouverte) -->
@@ -2201,8 +2201,10 @@
         // ══════════════════════════════════════════════════════════════════
         // CONFIGURATION
         // ══════════════════════════════════════════════════════════════════
-        const API_BASE = 'https://apihub.agnes-ai.com/v1';
-        const POLL_BASE = 'https://apihub.agnes-ai.com/agnesapi';
+        // Proxy Vercel quand l'app est hebergee (HTTPS), direct en local (file://)
+        const IS_HOSTED = location.protocol === 'https:';
+        const API_BASE  = IS_HOSTED ? '/api/videos'  : 'https://apihub.agnes-ai.com/v1';
+        const POLL_BASE = IS_HOSTED ? '/api/poll'     : 'https://apihub.agnes-ai.com/agnesapi';
         const MODEL_VIDEO = 'agnes-video-v2.0';
         const FRAME_RATE = 24;
 
@@ -3631,12 +3633,15 @@
                 num_frames: state.durationFrames,
                 frame_rate: FRAME_RATE
             };
-            const res = await apiFetch(API_BASE + '/videos', {
+            // En mode heberge, le proxy Vercel ajoute la cle API cote serveur
+            // En mode local, on envoie la cle directement
+            const headers = { 'Content-Type': 'application/json' };
+            if (!IS_HOSTED) headers['Authorization'] = 'Bearer ' + getApiKey();
+
+            const url = IS_HOSTED ? API_BASE : (API_BASE + '/videos');
+            const res = await apiFetch(url, {
                 method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + getApiKey(),
-                    'Content-Type': 'application/json'
-                },
+                headers,
                 body: JSON.stringify(body)
             }, 'Création');
             if (!res.ok) {
@@ -3670,10 +3675,14 @@
                         r--;
                     }
                 }
-                const url = POLL_BASE + '?video_id=' + encodeURIComponent(videoId) + '&model_name=' + encodeURIComponent(MODEL_VIDEO);
+                // URL de polling : /api/poll?video_id=...&model_name=... (proxy) ou URL directe (local)
+                const url = IS_HOSTED
+                    ? (POLL_BASE + '?video_id=' + encodeURIComponent(videoId) + '&model_name=' + encodeURIComponent(MODEL_VIDEO))
+                    : (POLL_BASE + '?video_id=' + encodeURIComponent(videoId) + '&model_name=' + encodeURIComponent(MODEL_VIDEO));
+                const pollHeaders = IS_HOSTED ? {} : { 'Authorization': 'Bearer ' + getApiKey() };
                 const res = await apiFetch(url, {
                     method: 'GET',
-                    headers: { 'Authorization': 'Bearer ' + getApiKey() }
+                    headers: pollHeaders
                 }, 'Polling');
                 const d = await res.json();
                 const status = d.status || 'unknown';
